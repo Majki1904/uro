@@ -17,7 +17,7 @@ body::before {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -2; 
+  z-index: -2;
 }
 
 .content {
@@ -160,4 +160,5 @@ canvas#confetti-canvas {
     bottom: 160px;
   }
 }
+
 
