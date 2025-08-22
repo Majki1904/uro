@@ -12,10 +12,13 @@
     <canvas id="confetti-canvas"></canvas>
   </div>
 
-  <!-- Baner na dole -->
+
   <div class="banner" id="banner"></div>
 
-  <!-- Modal -->
+  
+  <button id="toggleBanner">▲</button>
+
+  
   <div id="modal">
     <span id="close">&times;</span>
     <img id="modal-img" src="" alt="podgląd">
@@ -24,7 +27,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
   <script>
-   
+  
     const canvas = document.getElementById('confetti-canvas');
     const myConfetti = confetti.create(canvas, { resize: true, useWorker: true });
 
@@ -38,7 +41,7 @@
 
     setInterval(shootConfetti, 1500);
 
-   
+
     const images = [
       '1.jpeg','2.jpeg','3.jpeg','4.jpeg','5.jpeg',
       '6.jpeg','7.jpeg','8.jpeg','9.jpeg','10.jpeg'
@@ -52,7 +55,7 @@
       banner.appendChild(img);
     });
 
-    
+  
     let isDown = false;
     let startX;
     let scrollLeft;
@@ -72,7 +75,7 @@
       banner.scrollLeft = scrollLeft - walk;
     });
 
-   
+ 
     let touchStartX = 0;
     banner.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].pageX;
@@ -84,7 +87,7 @@
       banner.scrollLeft = scrollLeft - walk;
     });
 
- 
+  
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.getElementById("close");
@@ -98,13 +101,21 @@
       modal.style.display = "none";
     };
 
- 
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = "none";
+      if (e.target === modal) modal.style.display = "none";
+    });
+
+  
+    const toggleBtn = document.getElementById('toggleBanner');
+
+    toggleBtn.addEventListener('click', () => {
+      banner.classList.toggle('hidden');
+      if (banner.classList.contains('hidden')) {
+        toggleBtn.textContent = "▼";
+      } else {
+        toggleBtn.textContent = "▲";
       }
     });
   </script>
 </body>
 </html>
-
