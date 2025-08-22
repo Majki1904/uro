@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 80%;
+  height: 100%;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   overflow: hidden;
 }
@@ -63,7 +63,6 @@ canvas#confetti-canvas {
   left: 0;
   width: 100%;
   height: 200px;
-  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   overflow-x: auto;
@@ -131,4 +130,3 @@ canvas#confetti-canvas {
     height: 130px;
   }
 }
-
