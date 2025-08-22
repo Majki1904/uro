@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wszystkiego najlepszego!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="content">
+    <h1 class="pulsing">Wszystkiego najlepszego!</h1>
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <!-- Baner na dole -->
+  <div class="banner" id="banner"></div>
+
+  <!-- Modal (lightbox) -->
+  <div id="modal">
+    <span id="close">&times;</span>
+    <img id="modal-img" src="" alt="podgląd">
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // === konfetti ===
+    const canvas = document.getElementById('confetti-canvas');
+    const myConfetti = confetti.create(canvas, { resize: true, useWorker: true });
+
+    function shootConfetti() {
+      myConfetti({
+        particleCount: 100,
+        spread: 160,
+        origin: { y: 0 },
+      });
+    }
+
+    setInterval(shootConfetti, 1500);
+
+    // === baner obrazków ===
+    const images = [
+      '1.jpeg','2.jpeg','3.jpeg','4.jpeg','5.jpeg',
+      '6.jpeg','7.jpeg','8.jpeg','9.jpeg','10.jpeg'
+    ];
+    const banner = document.getElementById('banner');
+
+    images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.addEventListener('click', () => openModal(src));
+      banner.appendChild(img);
+    });
+
+    // === przewijanie myszą ===
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    banner.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - banner.offsetLeft;
+      scrollLeft = banner.scrollLeft;
+    });
+    banner.addEventListener('mouseleave', () => isDown = false);
+    banner.addEventListener('mouseup', () => isDown = false);
+    banner.addEventListener('mousemove', (e) => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - banner.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      banner.scrollLeft = scrollLeft - walk;
+    });
+
+    // === przewijanie dotykiem ===
+    let touchStartX = 0;
+    banner.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].pageX;
+      scrollLeft = banner.scrollLeft;
+    });
+    banner.addEventListener('touchmove', (e) => {
+      const x = e.touches[0].pageX;
+      const walk = (x - touchStartX) * 1.5;
+      banner.scrollLeft = scrollLeft - walk;
+    });
+
+    // === modal ===
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const closeBtn = document.getElementById("close");
+
+    function openModal(src) {
+      modal.style.display = "flex";
+      modalImg.src = src;
+    }
+
+    closeBtn.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    // zamykanie po kliknięciu w tło
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
